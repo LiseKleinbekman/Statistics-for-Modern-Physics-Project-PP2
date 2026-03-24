@@ -1,0 +1,36 @@
+#this uses data from HEPData record 93086, Table 5
+#dataframe uses mass (GeV), counts, bin width and poisson uncertainty
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+#load data into dataframe, skip unnecessary lines
+df=pd.read_csv('data\data_.csv', skipfooter=65, skiprows=11, delimiter=',')
+
+#make columns
+df.columns=['m_center', 'm_lo', 'm_hi', 'counts']
+
+df['uncertainty'] = np.sqrt(df['counts'])  #poisson uncertainty, because no uncertainty specified in data
+df['bin_width'] = df['m_hi'] - df['m_lo']
+
+#print(df)  #print to check
+
+#everything into separate columns
+m_center = df['m_center'].values
+counts = df['counts'].values   
+uncertainty = df['uncertainty'].values
+bin_width = df['bin_width'].values
+m_lo = df['m_lo'].values
+m_hi = df['m_hi'].values
+
+#plotting raw data
+#could also plot on linear scale, would remove plt.yscale
+plt.figure(figsize=(10,6))
+plt.errorbar(m_center, counts, yerr=uncertainty, fmt='o', color='black', ms=4, capsize=2, alpha=0.6)
+plt.xlabel(r'$m_{jj}$ [GeV]', fontsize=11)
+plt.ylabel('Counts', fontsize=11)
+plt.yscale('log')  #log scale
+plt.title('Raw Data')
+plt.savefig('data\data_raw.png', dpi=300)
+plt.show()
