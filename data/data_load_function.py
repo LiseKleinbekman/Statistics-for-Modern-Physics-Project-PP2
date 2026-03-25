@@ -33,11 +33,12 @@ m_center, counts, uncertainty, bin_width, m_lo, m_hi = load_data()
 
 #plotting raw data
 #could also plot on linear scale, would remove plt.yscale
-plt.figure(figsize=(10,6))
-plt.errorbar(m_center, counts, yerr=uncertainty, fmt='o', color='black', ms=4, capsize=2, alpha=0.6)
-plt.xlabel(r'$m_{jj}$ [GeV]', fontsize=11)
-plt.ylabel('Counts', fontsize=11)
-plt.yscale('log')  #log scale
-plt.title('Raw Data')
-plt.savefig('data\data_raw.png', dpi=300)
-plt.show()
+if __name__ == '__main__': #make sure that the data is plotted only when this file is run directly
+    plt.figure(figsize=(10,6))
+    plt.errorbar(m_center, counts, yerr=uncertainty, fmt='o', color='black', ms=4, capsize=2, alpha=0.6)
+    plt.xlabel(r'$m_{jj}$ [GeV]', fontsize=11)
+    plt.ylabel('Counts', fontsize=11)
+    plt.yscale('log')  #log scale
+    plt.title('Raw Data')
+    plt.savefig('data\data_raw.png', dpi=300)
+    plt.show()
