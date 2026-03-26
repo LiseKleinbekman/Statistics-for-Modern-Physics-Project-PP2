@@ -13,7 +13,7 @@ git clone <git@github.com:LiseKleinbekman/Statistics-for-Modern-Physics-Project-
 Go into the repo root:\
 cd Statistics-for-Modern-Physics-Project-PP2
 ### Requirements
-Python version: 3.14 + \
+Python version: 3.14 + 
 
 Install the following packages in the terminal: \
 python -m pip install requirements.txt\
