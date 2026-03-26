@@ -1,4 +1,5 @@
-#this uses data from HEPData record 93086, Table 5
+# table_doi: 10.17182/hepdata.91126.v1/t5
+# name: Table 5
 #dataframe uses mass (GeV), counts, bin width and poisson uncertainty
 
 import pandas as pd
