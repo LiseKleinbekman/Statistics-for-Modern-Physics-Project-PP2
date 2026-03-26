@@ -1,7 +1,6 @@
 import numpy as np
 import sys
 from pathlib import Path
-from scipy import stats
 from scipy.special import gammaln
 
 
