@@ -16,7 +16,7 @@ cd Statistics-for-Modern-Physics-Project-PP2
 Python version: 3.14 + 
 
 Install the following packages in the terminal: \
-python -m pip install requirements.txt\
+python -m pip install requirements.txt
 
 Create a virtual enviroment:\
 python -m venv venv
