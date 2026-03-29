@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.optimize import minimize
-from likelihood import poisson_nll
+from likelihood import neg_log_likelihood
 from data.data_load_function import load_data
 
 
@@ -54,7 +54,7 @@ def fit_background(mjj_centers, bin_widths, counts,
     mjj_centers  : array, bin-centre masses in TeV
     bin_widths   : array, bin widths in TeV
     counts       : array, observed event counts
-    sqrt_s_TeV   : float, sqrt(s) in TeV
+    sqrts        : float, sqrt(s) in TeV
     p0           : initial guess [p1, p2, p3, p4]
                    If None, sensible defaults are used.
     verbose      : print fit summary
@@ -80,7 +80,7 @@ def fit_background(mjj_centers, bin_widths, counts,
  
     # define the objective function for minimization (negative log-likelihood)
     def objective(params):
-        return poisson_nll(params, mjj_centers, bin_widths, counts, sqrts)
+        return neg_log_likelihood(params, mjj_centers, bin_widths, counts, sqrts)
  
     # two-stage: Nelder-Mead to explore, then L-BFGS-B to refine
     res1 = minimize(objective, p0, method='Nelder-Mead',
