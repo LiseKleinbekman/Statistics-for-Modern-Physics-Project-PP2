@@ -261,4 +261,4 @@ def fit_signal_plus_background(mjj_centers, bin_widths, counts,
         print(f"  -2 ln L = {2 * result.fun:.2f}")
         print()
  
-    return result, p_best, mu_best, result.fun
+    return result, p_best, mu_best, m0_best, result.fun
