@@ -1,5 +1,17 @@
 import numpy as np
 from scipy.special import gammaln
+import sys
+from pathlib import Path
+
+
+#Load the data from the data_load_funtion.py file 
+# Add parent directory to path so we can import from data folder
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from data.data_load_function import load_data #import the function from the data folder
+
+m_center, counts, uncertainty, bin_width, m_lo, m_hi = load_data() #call the function and unpack all the returned values
+#print(m_center, counts, uncertainty, bin_width, m_lo, m_hi) #print to check that all the values are being loaded properly
 
 # define log likelihood function for the Poisson distribution
 def log_likelihood(model, params, m_center, counts, **kwargs):
