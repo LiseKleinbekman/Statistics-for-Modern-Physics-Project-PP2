@@ -33,7 +33,7 @@ The data used is from the following paper: https://arxiv.org/pdf/1910.08447
 
 The data can be downloaded as .csv file using the following link: https://www.hepdata.net/record/93086
 
-In this repository includes the data set downloaded from https://www.hepdata.net/record/93086 and can be found in data/data_.csv
+This repository includes the data set downloaded from https://www.hepdata.net/record/93086 and can be found in data/data_.csv
 
 ## Running the code
 
