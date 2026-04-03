@@ -107,8 +107,8 @@ def fit_background(m_center, bin_width, counts,
     Returns
     -------
     result  : scipy OptimizeResult
-    p_best  : best-fit parameter array
-    mu_best : best-fit predicted counts array
+    p_best_b  : best-fit parameter array
+    mu_best_b : best-fit predicted counts array
     """
     #convert counts to a numpy array
     counts = np.asarray(counts, dtype=float)
@@ -124,8 +124,8 @@ def fit_background(m_center, bin_width, counts,
     bounds = [(1e-6, None), (0, 50), (-20, 0), (-10, 10)]
  
     # define the objective function for minimization (negative log-likelihood)
-    def background_model_for_fit(mass_centers, bin_width, p1, p2, p3, p4, sqrts):
-        return model(mass_centers, bin_width, p1, p2, p3, p4, sqrts)
+    def background_model_for_fit(mass_centers, bin_width, p1_b, p2_b, p3_b, p4_b, sqrts):
+        return model(mass_centers, bin_width, p1_b, p2_b, p3_b, p4_b, sqrts)
 
     def objective(params):
         return neg_log_likelihood(
@@ -144,22 +144,22 @@ def fit_background(m_center, bin_width, counts,
                       options={'maxiter': 10000, 'ftol': 1e-12})
  
     # Extract best-fit parameters
-    p_best = result.x
-    p1, p2, p3, p4 = p_best
+    p_best_b = result.x
+    p1_b, p2_b, p3_b, p4_b = p_best_b
  
     # Compute best-fit predicted counts
-    mu_best = model(m_center, bin_width, p1, p2, p3, p4, sqrts)
+    mu_best_b = model(m_center, bin_width, p1_b, p2_b, p3_b, p4_b, sqrts)
 
 
     
     # Numerical Covariance Matrix and Parameter Uncertainties
     cov_matrix = None
-    param_errors = np.full(len(p_best), np.nan)
+    param_errors = np.full(len(p_best_b), np.nan)
     corr_matrix = None
 
     try:
         # Compute Hessian at best-fit point
-        hessian = numerical_hessian(objective, p_best)
+        hessian = numerical_hessian(objective, p_best_b)
 
         # Invert Hessian → covariance matrix
         cov_matrix = np.linalg.inv(hessian)
@@ -187,23 +187,23 @@ def fit_background(m_center, bin_width, counts,
         print("=" * 55)
         print("Background-only fit (4-parameter)")
         print("=" * 55)
-        print(f"  p1 (norm)  = {p_best[0]:.4e} ± {param_errors[0]:.4e}")
-        print(f"  p2         = {p_best[1]:.4f} ± {param_errors[1]:.4f}")
-        print(f"  p3         = {p_best[2]:.4f} ± {param_errors[2]:.4f}")
-        print(f"  p4         = {p_best[3]:.4f} ± {param_errors[3]:.4f}")
+        print(f"  p1 (norm)  = {p_best_b[0]:.4e} ± {param_errors[0]:.4e}")
+        print(f"  p2         = {p_best_b[1]:.4f} ± {param_errors[1]:.4f}")
+        print(f"  p3         = {p_best_b[2]:.4f} ± {param_errors[2]:.4f}")
+        print(f"  p4         = {p_best_b[3]:.4f} ± {param_errors[3]:.4f}")
         print(f"  -2 ln L    = {2 * result.fun:.2f}")
         print(f"  Converged  = {result.success}")
         #print("Correlation matrix (if available):") #Print matrix to check 
         #print(result.hess_inv if result.hess_inv is not None else "Not available")
         print()
 
-    return result, p_best, mu_best, cov_matrix, param_errors, corr_matrix
+    return result, p_best_b, mu_best_b, cov_matrix, param_errors, corr_matrix
 
-result, p_best, mu_best, cov_matrix, param_errors, corr_matrix = fit_background(m_center, bin_width, counts)
+result, p_best_b, mu_best_b, cov_matrix, param_errors, corr_matrix = fit_background(m_center, bin_width, counts)
 
 print("Best-fit parameters:")
 for i, name in enumerate(["p1", "p2", "p3", "p4"]):
-    print(f"{name} = {p_best[i]} ± {param_errors[i]}")
+    print(f"{name} = {p_best_b[i]} ± {param_errors[i]}")
 if corr_matrix is not None:
     print("Correlation matrix:")
     print(corr_matrix)
