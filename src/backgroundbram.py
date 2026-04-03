@@ -96,8 +96,8 @@ def fit_background(m_center, bin_width, counts,
  
     Parameters
     ----------
-    mjj_centers  : array, bin-centre masses in GeV
-    bin_widths   : array, bin widths in GeV
+    m_center  : array, bin-centre masses in GeV
+    bin_width   : array, bin widths in GeV
     counts       : array, observed event counts
     sqrts        : float, sqrt(s) in GeV
     p0           : initial guess [p1, p2, p3, p4]
