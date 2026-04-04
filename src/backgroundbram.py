@@ -89,7 +89,7 @@ def numerical_hessian(func, params, epsilon=1e-5):
 
 # Fit the background model to the data by minimizing the negative log-likelihood
 def fit_background(m_center, bin_width, counts,
-                   sqrts=13000.0, p0=None, verbose=True):
+                   sqrts=13000.0, p0=None, verbose=False):
     """
     Fit the background-only model to the observed counts using
     scipy.optimize.minimize (Nelder-Mead + L-BFGS-B refinement).
@@ -134,7 +134,7 @@ def fit_background(m_center, bin_width, counts,
             m_center,
             counts,
             bin_width=bin_width,
-            sqrts=sqrts,
+            sqrts=sqrts
         )
  
     # two-stage: Nelder-Mead to explore, then L-BFGS-B to refine
@@ -182,7 +182,7 @@ def fit_background(m_center, bin_width, counts,
 
 
  
-    # Print fit summary 
+    # Print fit summary  (To print this everytime the function is called, swithc to Verbose=True. Printing is done outside the function right now, but can be moved inside using the following code. )
     if verbose:
         print("=" * 55)
         print("Background-only fit (4-parameter)")
@@ -193,23 +193,25 @@ def fit_background(m_center, bin_width, counts,
         print(f"  p4         = {p_best_b[3]:.4f} ± {param_errors[3]:.4f}")
         print(f"  -2 ln L    = {2 * result.fun:.2f}")
         print(f"  Converged  = {result.success}")
-        #print("Correlation matrix (if available):") #Print matrix to check 
-        #print(result.hess_inv if result.hess_inv is not None else "Not available")
+        print("Correlation matrix (if available):") #Print matrix to check 
+        print(result.hess_inv if result.hess_inv is not None else "Not available")
         print()
 
     return result, p_best_b, mu_best_b, cov_matrix, param_errors, corr_matrix
 
-result, p_best_b, mu_best_b, cov_matrix, param_errors, corr_matrix = fit_background(m_center, bin_width, counts)
 
-print("Best-fit parameters:")
-for i, name in enumerate(["p1", "p2", "p3", "p4"]):
-    print(f"{name} = {p_best_b[i]} ± {param_errors[i]}")
-if corr_matrix is not None:
-    print("Correlation matrix:")
-    print(corr_matrix)
-    print()
+if __name__ == '__main__':
+    result, p_best_b, mu_best_b, cov_matrix, param_errors, corr_matrix = fit_background(m_center, bin_width, counts)
 
-if cov_matrix is not None:
-    print("Covariance matrix:")
-    print(cov_matrix)
-    print()
+    print("Best-fit parameters:")
+    for i, name in enumerate(["p1", "p2", "p3", "p4"]):
+        print(f"{name} = {p_best_b[i]} ± {param_errors[i]}")
+    if corr_matrix is not None:
+        print("Correlation matrix:")
+        print(corr_matrix)
+        print()
+
+    if cov_matrix is not None:
+        print("Covariance matrix:")
+        print(cov_matrix)
+        print() 
